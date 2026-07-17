@@ -1,0 +1,33 @@
+name: "Care Daily Bridge"
+description: "A Home Assistant app for selecting Home Assistant devices and mapping them to Care Daily cloud destinations"
+version: "0.3.0"
+slug: "care_daily_device_bridge"
+image: "ghcr.io/caredailyai/care-daily-bridge"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+init: false
+# This allows the app to communicate with HA via the internal proxy
+homeassistant_api: true
+hassio_api: true
+hassio_role: admin
+hassio_network: true
+
+# This tells HA to show the 'Open Web UI' button and sidebar link
+panel_icon: "mdi:devices"
+panel_title: "Care Daily Bridge"
+ingress: true
+ingress_port: 5000
+
+options:
+  ha_refresh_interval: 10
+  care_daily_cloud_base_url:
+    - "https://app.peoplepowerco.com"
+    - "https://eu.caredaily.ai"
+    - "https://sboxall.peoplepowerco.com"
+
+schema:
+  ha_refresh_interval: int
+  care_daily_cloud_base_url: 
+    - str
