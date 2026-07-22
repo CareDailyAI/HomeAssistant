@@ -1,6 +1,6 @@
 {
   "name": "Care Daily Device Bridge",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "slug": "care_daily_device_bridge",
   "image": "ghcr.io/caredailyai/care-daily-bridge",
   "description": "Bridge between Home Assistant and Care Daily Cloud for real-time device monitoring",
