@@ -1,6 +1,6 @@
 name: "Care Daily Bridge"
 description: "A Home Assistant app for selecting Home Assistant devices and mapping them to Care Daily cloud destinations"
-version: "0.3.0"
+version: "0.3.3"
 slug: "care_daily_device_bridge"
 image: "ghcr.io/caredailyai/care-daily-bridge"
 arch:
