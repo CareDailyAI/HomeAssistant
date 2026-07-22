@@ -10,6 +10,7 @@
   ],
   "startup": "application",
   "boot": "auto",
+  "init": false,
   "ports": {
     "5000/tcp": 5000
   },
