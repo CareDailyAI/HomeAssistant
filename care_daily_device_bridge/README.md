@@ -1,49 +1,92 @@
-# Care Daily Bridge
+# Care Daily Device Bridge - Home Assistant Addon
 
-Care Daily Bridge is a Home Assistant app for selecting Home Assistant entities, mapping them to Care Daily cloud destinations, and managing Care Daily cloud connectivity from a web UI.
+This addon bridges your Home Assistant devices to the Care Daily Cloud platform for real-time monitoring and analytics.
 
-This README covers Home Assistant app usage only. Local execution and Docker workflows live in `docs/README.md`.
+## Installation
 
-## What The App Does
+## How to Add This Repository to Home Assistant
 
-- Discovers Home Assistant entities.
-- Lets operators choose which entities should be exposed.
-- Monitors bridge hardware health (WiFi, Power, Battery).
-- Supports per-device MQTT topic and cloud destination mapping.
-- Supports remote device control commands (e.g., turn on/off/brightness) from Care Daily cloud.
-- Discovers and manages Care Daily cloud instances.
-- Handles cloud authentication and cloud connection status from the UI.
+To install add-ons from this repository, you can add it to your Home Assistant instance automatically by clicking the badge below:
 
-## App Configuration
+[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FCareDailyAI%2FHomeAssistant)
 
-Set these values from the app `Configuration` tab in Home Assistant.
+Alternatively, you can add it manually:
 
-| Option | Default | What it is for |
-| --- | --- | --- |
-| `ha_refresh_interval` | `10` | How often the bridge refreshes Home Assistant state and UI data, in seconds. The runtime clamps the value to a minimum of 2 seconds and a maximum of 3600 seconds. |
-| `care_daily_cloud_base_url` | `["https://app.peoplepowerco.com", "https://eu.caredaily.ai", "https://sboxall.peoplepowerco.com"]` | The Care Daily cloud base URLs the bridge uses for cloud discovery and connection setup. |
+1. Navigate to your Home Assistant dashboard.
+2. Go to **Settings** > **Add-ons** > **Add-on Store**.
+3. Click the three dots (overflow menu) in the top-right corner and select **Repositories**.
+4. Copy and paste the URL of this repository:
+   ```text
+   https://github.com/CareDailyAI/HomeAssistant
+   ```
+5. Click **Add**. The repository will now appear in your list of repositories.
+6. Close the dialog. The Care Daily add-ons will now be visible and available for installation in the Add-on Store.
 
-Home Assistant provides the supervisor token used for API access, so the app does not require Home Assistant URL or token fields in its configuration.
+## Configuration
 
-## Publishing Releases
+After installation:
 
-Releases are automatically calculated and published by GitHub Actions pipelines based on **Conventional Commits** pushed to the repository.
+1. **Start the addon** (it will create the initial database)
+2. **Open the Web UI** by clicking "Open Web UI" or navigating to the addon's port
+3. **Configure your Care Daily Cloud credentials**:
+   - Navigate to the Configuration page
+   - Enter your Care Daily Cloud API credentials
+   - Select devices to monitor
+4. **Save** and the bridge will start syncing data
 
-### Release Commit Rules
+### Configuration Options
 
-To trigger a release build on `main`, commit subjects (or bodies) must follow Conventional Commits format:
+The addon supports the following configuration options (in the Configuration tab):
 
-| Commit Type | Version Bump | Example |
-| --- | --- | --- |
-| `fix:`, `perf:`, `refactor:`, `revert:` | **Patch** (e.g., `v0.3.0` &rarr; `v0.3.1`) | `fix: resolve MQTT reconnection delay` |
-| `feat:` | **Minor** (e.g., `v0.3.0` &rarr; `v0.4.0`) | `feat: support new device type` |
-| `BREAKING CHANGE:` or `!:` | **Major** (e.g., `v0.3.0` &rarr; `v1.0.0`) | `feat!: update payload contract` |
+- `db_path`: Database file path (default: `/data/care_daily_bridge.db`)
 
-> [!NOTE]
-> Commits using `chore:`, `docs:`, `style:`, `test:`, or `ci:` do **not** trigger a version bump and will cause the release publishing step to be skipped.
+## Architecture Support
 
-### Release Workflows
+This addon supports the following architectures:
 
-- **Stable Release (`publish-stable.yml`)**: Pushing qualifying commits (`feat:`, `fix:`, etc.) to `main` calculates the next semantic version, tags the commit, updates configuration metadata, and publishes the image to GitHub Container Registry (`ghcr.io`).
-- **Prerelease (`publish-prerelease.yml`)**: Manually dispatched on feature/fix branches to compute and publish prerelease builds (e.g., `v0.3.1-beta.1`).
+- ✅ `aarch64` (ARM 64-bit: Raspberry Pi 4/5, Home Assistant Green, ODROID-N2)
+- ✅ `amd64` (x86 64-bit: Intel/AMD processors)
 
+**Note:** Older architectures (armv7, armhf, i386) are no longer supported by Home Assistant.
+
+## Features
+
+- 🔄 Real-time device state synchronization
+- 🌐 MQTT integration with Care Daily Cloud
+- 📊 Device health monitoring
+- 🔐 Secure credential management
+- 🎯 Selective device exposure
+- 📈 Virtual hub health reporting (WiFi, disk, battery, versions)
+
+## Troubleshooting
+
+### Addon won't start
+
+1. Check the logs in the **Log** tab
+2. Ensure the database path is writable
+3. Verify your Care Daily Cloud credentials are correct
+
+### Devices not syncing
+
+1. Check that devices are selected in the Configuration page
+2. Verify MQTT credentials are valid
+3. Check the addon logs for error messages
+
+### Port conflicts
+
+If port 5000 is already in use:
+
+1. Go to the **Configuration** tab
+2. Change the port mapping to a different port (e.g., 5001)
+3. Restart the addon
+
+## Support
+
+For issues, feature requests, or questions:
+
+- GitHub Issues: [Report an issue](https://github.com/peoplepower/home-assistant/issues)
+- Documentation: See `/docs` folder for detailed technical documentation
+
+## Development
+
+See [DEVELOPER_README.md](docs/DEVELOPER_README.md) for development setup and testing instructions.
