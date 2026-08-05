@@ -4,7 +4,7 @@ This addon bridges your Home Assistant devices to the Care Daily Cloud platform 
 
 ## Installation
 
-## How to Add This Repository to Home Assistant
+### How to Add This Repository to Home Assistant
 
 To install add-ons from this repository, you can add it to your Home Assistant instance automatically by clicking the badge below:
 
@@ -22,19 +22,27 @@ Alternatively, you can add it manually:
 5. Click **Add**. The repository will now appear in your list of repositories.
 6. Close the dialog. The Care Daily add-ons will now be visible and available for installation in the Add-on Store.
 
-## Configuration
+---
 
-After installation:
+## 🧙‍♂️ First-Time Setup Wizard
 
-1. **Start the addon** (it will create the initial database)
-2. **Open the Web UI** by clicking "Open Web UI" or navigating to the addon's port
-3. **Configure your Care Daily Cloud credentials**:
-   - Navigate to the Configuration page
-   - Enter your Care Daily Cloud API credentials
-   - Select devices to monitor
-4. **Save** and the bridge will start syncing data
+When you open the Web UI (**Open Web UI**) for the first time, an interactive **First-Time Setup Wizard** automatically displays to guide you through complete hub and cloud configuration:
 
-### Configuration Options
+1. **Step 1: Select Cloud Server**: Select your target Care Daily cloud environment from the list of discovered servers.
+2. **Step 2: Authenticate Account**: Enter your Care Daily account email or phone number and password to log in.
+3. **Step 3: Select Location & Register**: Pick your home location and click **Register & Connect →**. The bridge registers your device and automatically retrieves and stores secure MQTT cloud connection settings.
+4. **Step 4: Configure Devices & Cloud**:
+   - Confirm your target cloud server.
+   - Choose whether to set the selected cloud as default.
+   - Choose whether to automatically expose and assign all existing Home Assistant devices.
+   - Choose whether to automatically add newly discovered future devices.
+   - Click **Finish & Save Devices →** to complete setup.
+
+> 💡 **Dismissing or Re-opening**: You can dismiss the wizard at any time by clicking **Dismiss Wizard** or the top-right **×** button (or via the **Dismiss setup wizard** setting in System Configuration). To re-open the wizard, append `?setup=1` to the Web UI URL.
+
+---
+
+## Configuration Options
 
 The addon supports the following configuration options (in the Configuration tab):
 
@@ -51,6 +59,7 @@ This addon supports the following architectures:
 
 ## Features
 
+- 🧙‍♂️ **Interactive First-Time Setup Wizard** for step-by-step account login, location selection, and device assignment
 - 🔄 Real-time device state synchronization
 - 🌐 MQTT integration with Care Daily Cloud
 - 📊 Device health monitoring
@@ -84,9 +93,9 @@ If port 5000 is already in use:
 
 For issues, feature requests, or questions:
 
-- GitHub Issues: [Report an issue](https://github.com/peoplepower/home-assistant/issues)
+- GitHub Issues: [Report an issue](https://github.com/CareDailyAI/HomeAssistant/issues)
 - Documentation: See `/docs` folder for detailed technical documentation
 
 ## Development
 
-See [DEVELOPER_README.md](docs/DEVELOPER_README.md) for development setup and testing instructions.
+See [README_DEVELOPER.md](docs/guides/README_DEVELOPER.md) for development setup and testing instructions.
