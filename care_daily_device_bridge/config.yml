@@ -1,6 +1,6 @@
 name: "Care Daily Device Bridge"
 description: "Bridge between Home Assistant and Care Daily Cloud for real-time device monitoring"
-version: "0.9.0"
+version: "0.9.2"
 slug: "care_daily_device_bridge"
 image: "ghcr.io/peoplepower/care-daily-bridge-{arch}"
 arch:
@@ -12,7 +12,7 @@ boot: "auto"
 init: false
 homeassistant_api: true
 hassio_api: true
-hassio_role: admin
+hassio_role: manager
 hassio_network: true
 auth_api: true
 panel_icon: "mdi:bridge"
@@ -48,6 +48,11 @@ options:
   location_name: ""
   max_devices_per_message: 10
   registry_add_inter_chunk_delay_seconds: 60.0
+  allowed_device_categories:
+    - "hardware"
+    - "mobile_app"
+    - "service"
+    - "kiosk_display"
 schema:
 
   db_path: "str?"
@@ -70,4 +75,7 @@ schema:
   location_name: "str?"
   max_devices_per_message: "int?"
   registry_add_inter_chunk_delay_seconds: "float?"
+  allowed_device_categories:
+    - str
+
 

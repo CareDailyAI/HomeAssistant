@@ -1,3 +1,9 @@
+## 0.9.2
+- fix: Device filtering to remove noisy device updates (#52) (736e419)
+
+## 0.9.1
+- refactor: normalizing device sensors and optimizing command queues (12b79ff)
+
 ## 0.9.0
 - feat: Implement setup wizard and enhance device on-boarding features (#50) (f31d29d)
 
