@@ -1,6 +1,6 @@
 name: "Care Daily Edge"
 description: "Edge gateway between Home Assistant and Care Daily Cloud for real-time device monitoring and localized edge computing"
-version: "0.14.0"
+version: "0.14.1"
 slug: "care_daily_device_bridge"
 image: "ghcr.io/peoplepower/care-daily-bridge-{arch}"
 arch:

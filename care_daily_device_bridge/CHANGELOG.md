@@ -1,3 +1,6 @@
+## 0.14.1
+- fix(ui): resolve setup wizard login spinner lockup and launch button navigation (#118) (e21a41c)
+
 ## 0.14.0
 - feat(security): encrypt cloud API keys and device auth tokens at rest (#116) (4cec0bc)
 
