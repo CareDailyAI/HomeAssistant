@@ -1,4 +1,4 @@
-# Care Daily Device Bridge - Home Assistant Addon
+# Care Daily Edge - Home Assistant Addon
 
 This addon bridges your Home Assistant devices to the Care Daily Cloud platform for real-time monitoring and analytics.
 
@@ -30,7 +30,7 @@ When you open the Web UI (**Open Web UI**) for the first time, an interactive **
 
 1. **Step 1: Select Cloud Server**: Select your target Care Daily cloud environment from the list of discovered servers.
 2. **Step 2: Authenticate Account**: Enter your Care Daily account email or phone number and password to log in.
-3. **Step 3: Select Location & Register**: Pick your home location and click **Register & Connect →**. The bridge registers your device and automatically retrieves and stores secure MQTT cloud connection settings.
+3. **Step 3: Select Location & Register**: Pick your home location and click **Register & Connect →**. The edge gateway registers your device and automatically retrieves and stores secure MQTT cloud connection settings.
 4. **Step 4: Configure Devices & Cloud**:
    - Confirm your target cloud server.
    - Choose whether to set the selected cloud as default.
@@ -38,7 +38,7 @@ When you open the Web UI (**Open Web UI**) for the first time, an interactive **
    - Choose whether to automatically add newly discovered future devices.
    - Click **Finish & Save Devices →** to complete setup.
 
-> 💡 **Dismissing or Re-opening**: You can dismiss the wizard at any time by clicking **Dismiss Wizard** or the top-right **×** button (or via the **Dismiss setup wizard** setting in System Configuration). To re-open the wizard, append `?setup=1` to the Web UI URL.
+> 💡 **Closing, Dismissing and Re-opening**: The top-right **×** hides the wizard for this visit only — it opens again next time you visit the devices page. **Dismiss Wizard** stops it opening automatically, the same as the **Dismiss setup wizard** setting in App Configuration. To re-open it, go to **App Configuration** and click **Launch Setup Wizard**.
 
 ---
 
@@ -46,7 +46,9 @@ When you open the Web UI (**Open Web UI**) for the first time, an interactive **
 
 The addon supports the following configuration options (in the Configuration tab):
 
-- `db_path`: Database file path (default: `/data/care_daily_bridge.db`)
+- `db_path`: Database file path (default: `/data/devices.db`)
+
+The full option list, with defaults, is in the add-on's **Documentation** tab ([DOCS.md](DOCS.md#configuration-options)).
 
 ## Architecture Support
 
@@ -55,7 +57,7 @@ This addon supports the following architectures:
 - ✅ `aarch64` (ARM 64-bit: Raspberry Pi 4/5, Home Assistant Green, ODROID-N2)
 - ✅ `amd64` (x86 64-bit: Intel/AMD processors)
 
-**Note:** Older architectures (armv7, armhf, i386) are no longer supported by Home Assistant.
+**Note:** 32-bit ARM (`armv7`/`armhf`) and `i386` are not built or published for this add-on.
 
 ## Features
 
@@ -81,13 +83,17 @@ This addon supports the following architectures:
 2. Verify MQTT credentials are valid
 3. Check the addon logs for error messages
 
-### Port conflicts
+### Reaching the Web UI directly
 
-If port 5000 is already in use:
+The addon is served through Home Assistant Ingress and does not publish port 5000 to your network, so it cannot conflict with anything. Use **Open Web UI** or the sidebar panel.
+
+If you specifically need direct access from outside Home Assistant:
 
 1. Go to the **Configuration** tab
-2. Change the port mapping to a different port (e.g., 5001)
+2. Set a Host port under **Network** (e.g., 5000, or 5001 if that is taken)
 3. Restart the addon
+
+Direct access bypasses Home Assistant's authentication — see the **Documentation** tab before enabling it.
 
 ## Support
 
@@ -98,4 +104,4 @@ For issues, feature requests, or questions:
 
 ## Development
 
-See [README_DEVELOPER.md](docs/guides/README_DEVELOPER.md) for development setup and testing instructions.
+See [README_DEVELOPER.md](../guides/README_DEVELOPER.md) for development setup and testing instructions.

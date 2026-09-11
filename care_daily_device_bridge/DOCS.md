@@ -1,4 +1,4 @@
-# Care Daily Device Bridge Documentation
+# Care Daily Edge Documentation
 
 This add-on bridges your Home Assistant devices to the Care Daily Cloud platform for real-time monitoring and analytics.
 
@@ -20,7 +20,7 @@ Enter your Care Daily account credentials (email or phone number and password) t
 
 ### 3. Step 3: Select Location & Register Device
 - Choose your home location from the location dropdown list.
-- Click **Register & Connect →** to register your gateway device. The bridge automatically fetches and stores your secure MQTT connection credentials.
+- Click **Register & Connect →** to register your gateway device. The edge gateway automatically fetches and stores your secure MQTT connection credentials.
 
 ### 4. Step 4: Configure Devices & Cloud Options
 - **Target Cloud Server**: Confirm or select the cloud server where your devices will be assigned.
@@ -33,8 +33,10 @@ Enter your Care Daily account credentials (email or phone number and password) t
 
 ### Dismissing or Re-opening the Wizard
 
-* **Dismissing the Wizard**: If you prefer to configure the bridge manually, click **Dismiss Wizard** in the footer or the **×** button in the top-right header. You can also toggle the **Dismiss setup wizard** setting in **System Configuration**.
-* **Re-opening the Wizard**: To re-launch the setup wizard at any time, navigate to the Web UI with `?setup=1` (e.g. `http://<bridge-ip>:5000/?setup=1`).
+* **Closing it for now**: The **×** in the top-right header hides the wizard for this visit only. It opens again the next time you go to the Home Assistant Devices page, so use this to look at the page behind it without giving anything up.
+* **Dismissing the Wizard**: **Dismiss Wizard** in the footer stops it opening automatically from then on. This is the same setting as the **Dismiss setup wizard** checkbox in **App Configuration**, so you can reverse it there.
+* **Re-opening the Wizard**: Go to **App Configuration** and click **Launch Setup Wizard**. This runs the wizard once, whatever the **Dismiss setup wizard** setting says.
+* **Bringing the Wizard back permanently**: On the same page, uncheck **Dismiss setup wizard** and save. The wizard then displays automatically on the Home Assistant Devices page again until you dismiss it or finish it.
 
 ---
 
@@ -56,31 +58,42 @@ If you choose to manage settings manually or make adjustments after completing t
 
 The add-on supports the following options via the **Configuration** tab in Home Assistant:
 
-* **`db_path`**: The file path where the local database is stored (Default: `/data/care_daily_bridge.db`).
-* **`ha_refresh_interval`**: The rate (in seconds) at which the bridge refreshes entity state information from Home Assistant.
+* **`db_path`**: The file path where the local database is stored (Default: `/data/devices.db`).
+* **`ha_refresh_interval`**: The rate (in seconds) at which the edge gateway refreshes entity state information from Home Assistant (Default: `10`; clamped to 2–3600).
 * **`care_daily_cloud_base_url`**: Supported Care Daily cloud platform API endpoints.
-* **`hub_name`**: Optional custom display name for the Home Assistant bridge hub.
-* **`time_zone`**: System time zone for timestamp conversions.
-* **`hub_area`**: Default Home Assistant area/location assigned to the virtual hub device.
-* **`auto_add_future_devices`**: Automatically expose and assign newly discovered Home Assistant entities to the cloud on startup.
-* **`nightly_sync_time`**: Scheduled daily synchronization time (e.g. `03:00`).
-* **`heartbeat_interval_seconds`**: Interval (in seconds) between gateway health status heartbeats.
+* **`hub_name`**: Optional custom display name for the Home Assistant edge hub (Default: empty, which falls back to `Care Daily Edge`).
+* **`time_zone`**: System time zone for timestamp conversions (Default: empty).
+* **`hub_area`**: Default Home Assistant area/location assigned to the virtual hub device (Default: empty).
+* **`auto_add_future_devices`**: Automatically expose and assign newly discovered Home Assistant entities to the cloud on startup (Default: `false`).
+* **`nightly_sync_time`**: Scheduled daily synchronization time (Default: `03:00`).
+* **`heartbeat_interval_seconds`**: Interval (in seconds) between gateway health status heartbeats (Default: `60`).
 * **`max_devices_per_message`**: Maximum number of devices included per MQTT registry payload (Default: `10`).
 * **`registry_add_inter_chunk_delay_seconds`**: Delay (in seconds) between successive bulk device onboarding chunks to prevent rate-limiting (Default: `60.0`).
-* **`setup_wizard_enabled`**: Enable automated First-Time Setup Wizard execution on startup.
+* **`allowed_device_categories`**: List of enabled device categories (`hardware`, `mobile_app`, `service`, `kiosk_display`).
+* **`excluded_entity_domains`**: Entity domains that are never published to the cloud. The defaults (`button`, `update`, `scene`, `automation`, `script`, `conversation`, `tts`, `todo`, `notify`) are domains Care Daily Cloud does not consume yet, or that describe Home Assistant itself rather than a physical device. Adjust the list as cloud support expands.
+* **`command_opt_in_domains`**: Security-critical domains this deployment re-enables for remote control. Empty by default, which means neither the cloud MQTT command channel nor the Web UI's test-command button may operate a `lock`, `alarm_control_panel`, `valve`, or `water_heater` — naming one here opts that single domain in. Domains that run user-defined actions (`script`, `scene`, `automation`, `button`, `input_button`, `remote`, `homeassistant`) cannot be opted in at all, because their effect is not visible in the command and enabling them would bypass every other entry in the list.
+* **`session_cookie_secure`**: Set to `true` when the Web UI is reached over HTTPS so the session cookie is marked `Secure` (Default: `false`).
+* **`setup_wizard_enabled`**: Run cloud login, device registration, and MQTT credential retrieval automatically at startup from stored credentials (headless setup). When enabled, also provide `cloud_url`, `username`, and `password` (or `passcode`), plus `location_name`. See the [Operator Quickstart](../guides/README_OPERATOR.md) for the full headless key list and environment-variable equivalents.
+* **`attribute_blacklist_keys`**, **`attribute_blacklist_contains`**, **`attribute_blacklist_prefixes`**, **`attribute_blacklist_suffixes`**: Four independent lists of entity-attribute filters applied before publishing, so that Home Assistant bookkeeping (app package names, icons, release notes) never reaches cloud telemetry. Each ships a default list; see [MQTT Attribute Mapping](../architecture/MQTT_ATTRIBUTE_MAPPING.md#filtered-attributes) for the shipped values and the matching rules.
 
 ## Troubleshooting
 
 ### Add-on won't start
 * Check the **Log** tab at the top of the add-on page for detailed error logs.
-* Ensure the database path is set to a writable directory (e.g. `/data/care_daily_bridge.db`).
+* Ensure the database path is set to a writable directory. `/data` is the add-on's persistent volume and is always writable, so keep `db_path` under it (the default is `/data/devices.db`).
 
 ### Devices are not updating in the cloud
 * Ensure you have selected and saved the target devices on the Home Assistant Devices page.
 * Check the add-on logs to verify that the MQTT connection to the Care Daily Cloud was established successfully.
 
-### Changing Ports
-* If the default port `5000` conflicts with another add-on or integration on your system, go to the **Configuration** tab, change the Host port mapping (under Network) to a different port, and restart the add-on.
+### Automatic restarts (Watchdog)
+* The add-on exposes a health endpoint that Home Assistant checks while the add-on runs.
+* Turn on **Watchdog** on the add-on page to have Supervisor restart the add-on automatically if it stops responding.
+
+### Direct Port Access
+* The add-on is reached through Home Assistant Ingress, and port `5000` is **not** published to your network by default. Use **Open Web UI** or the sidebar panel; no host port is involved and nothing can conflict with it.
+* If you need to reach the Web UI directly (for example from a script outside Home Assistant), go to the **Configuration** tab, set a Host port under **Network**, and restart the add-on. The UI is then also available at `http://<home-assistant-host>:<port>/`.
+* Direct access bypasses Home Assistant's authentication. If you publish a port, set **`session_cookie_secure`** appropriately and treat the UI as network-reachable.
 
 ### Need Help?
 If you encounter any other issues or have questions, please open a new issue on GitHub: [Create a new issue](https://github.com/CareDailyAI/HomeAssistant/issues/new).

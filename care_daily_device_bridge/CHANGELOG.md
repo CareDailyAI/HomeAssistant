@@ -1,3 +1,48 @@
+## 0.14.0
+- feat(security): encrypt cloud API keys and device auth tokens at rest (#116) (4cec0bc)
+
+## 0.13.0
+- feat: Rebrand application to Care Daily Edge (#115) (4e431b2)
+- feat!: key config_parameters by the device catalog's own parameter string (#113) (296ff2c)
+
+## 0.12.4
+- sec: enforce a shared command deny-list on the MQTT and HTTP control paths (#112) (1014a6e)
+
+## 0.12.3
+- fix: make the devices table rebuild atomic against a crash (#107) (338e6c7)
+
+## 0.12.2
+- fix: normalize db path comparison to prevent false orphan warnings (#106) (8e25b86)
+- ci: stop concurrent release runs from double-publishing a version (#105) (b4c489d)
+
+## 0.12.1
+- fix: cap cloud_log retention so the database stops growing without bound (#103) (c36b2f2)
+- fix: honor the db_path add-on option instead of silently ignoring it (#102) (89f1dc7)
+
+## 0.12.0
+- feat: add CSRF protection to every state-changing endpoint (#104) (18ede0f)
+
+## 0.11.0
+- feat(ui): brand-aligned CSS token layer (Phase 1, #96) (#101) (511e2ea)
+
+## 0.10.0
+- feat: Expose Z-Wave device configuration parameters to cloud via MQTT (#88) (ff0fa04)
+
+## 0.9.6
+- fix: filter unmapped device parameter noise and correct publish-path inconsistencies (#89) (bf471b7)
+
+## 0.9.5
+- fix(security): harden the add-on container image (d8cd281)
+- chore: disable default direct access port mapping for Web UI in config (#61) (f091903)
+- chore: update GitHub Actions to latest versions and remove deprecated Node.js environment variable (726ed42)
+
+## 0.9.4
+- chore: update CI workflows to install dependencies from requirements-dev.txt (8577145)
+- fix: changing cloud doesn't properly re-register device (#57) (c1ff725)
+
+## 0.9.3
+- fix: bug requesting login code (#56) (5d1b786)
+
 ## 0.9.2
 - fix: Device filtering to remove noisy device updates (#52) (736e419)
 
