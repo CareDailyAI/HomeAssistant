@@ -1,3 +1,6 @@
+## 0.14.2
+- fix: allow config parameter writes on devices with auxiliary button entities (#119) (8e4dc1b)
+
 ## 0.14.1
 - fix(ui): resolve setup wizard login spinner lockup and launch button navigation (#118) (e21a41c)
 
