@@ -26,7 +26,7 @@ Alternatively, you can add it manually:
 
 ## Available Add-ons
 
-* [Care Daily Device Bridge](./care_daily_device_bridge) - Bridges Home Assistant devices to the Care Daily Cloud platform for real-time monitoring and analytics.
+* [Care Daily Edge](./care_daily_device_bridge/DOCS.md) - Bridges Home Assistant devices to the Care Daily Cloud platform for real-time monitoring and analytics.
 
 
 ## Support and Feedback
