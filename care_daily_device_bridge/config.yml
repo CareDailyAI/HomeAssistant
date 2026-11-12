@@ -1,6 +1,6 @@
 name: "Care Daily Edge"
 description: "Edge gateway between Home Assistant and Care Daily Cloud for real-time device monitoring and localized edge computing"
-version: "0.14.2"
+version: "1.0.0"
 slug: "care_daily_device_bridge"
 image: "ghcr.io/peoplepower/care-daily-bridge-{arch}"
 arch:
@@ -16,12 +16,11 @@ init: false
 #   http://supervisor/core (states, registries, service calls).
 homeassistant_api: true
 # hassio_api + hassio_role: services/virtual_hub_service.py reads the Supervisor
-#   core/info, os/info, supervisor/info, network/info and host/info endpoints via
-#   DeviceClient.fetch_hassio_info. The 'default' role permits exactly the
-#   /<component>/info paths and denies mutating routes such as /host/reboot,
-#   /supervisor/update and /addons/self/options.
+#   core/info, os/info, supervisor/info, network/info and host/info endpoints.
+#   The 'manager' role enables Care Daily Edge to orchestrate the local Mosquitto
+#   MQTT broker via the Supervisor store and add-on management APIs.
 hassio_api: true
-hassio_role: default
+hassio_role: manager
 panel_icon: "mdi:router-network"
 panel_title: "Care Daily Edge"
 ingress: true
@@ -36,9 +35,9 @@ ports_description:
 # instead of a silent outage. It resolves to the add-on's own container
 # address, so it works with 5000/tcp unpublished.
 watchdog: "http://[HOST]:[PORT:5000]/healthz"
-# No map: entry. All persistent state lives under /data, which Supervisor always
-# mounts for an add-on without an explicit map. Nothing reads or writes the
-# Home Assistant config or share trees.
+# Map Home Assistant ssl folder for Mosquitto client and CA certificate management.
+map:
+  - ssl:rw
 options:
   db_path: "/data/devices.db"
   ha_refresh_interval: 10
@@ -53,6 +52,9 @@ options:
   heartbeat_interval_seconds: 60
   setup_wizard_enabled: false
   session_cookie_secure: false
+  # Off on every install unless the operator opts in: experimental features
+  # are not ready for production. Label and warning in translations/en.yaml.
+  show_experimental_features: false
   cloud_url: "https://sboxall.peoplepowerco.com"
   username: ""
   password: ""
@@ -65,9 +67,8 @@ options:
     - "mobile_app"
     - "service"
     - "kiosk_display"
-  # Security-critical domains this deployment re-enables for remote control.
-  # Empty means inbound commands may not operate locks, alarms, valves or water
-  # heaters. Documented in docs/publishing/DOCS.md.
+  # Deprecated: previously used to opt into life-safety domains. Commands received
+  # over MQTT from Care Daily Cloud are now trusted directly as reliable commands.
   command_opt_in_domains: []
   # Publishing noise filters. Documented in
   # docs/architecture/MQTT_ATTRIBUTE_MAPPING.md; the defaults below must stay
@@ -98,6 +99,9 @@ options:
     - "release_url"
     - "attribution"
     - "editable"
+    - "min"
+    - "max"
+    - "step"
   attribute_blacklist_contains:
     - "_com."
     - "_org."
@@ -117,6 +121,7 @@ schema:
   heartbeat_interval_seconds: "int?"
   setup_wizard_enabled: "bool?"
   session_cookie_secure: "bool?"
+  show_experimental_features: "bool?"
   cloud_id: "int?"
   cloud_url: "str?"
   username: "str?"

@@ -1,3 +1,158 @@
+## 1.0.0
+- feat(release)!: pin ubuntu-24.04 on release/deploy workflows and prepare v1.0.0 (184f42b)
+- docs(cloud-observations): log 2026-11-12 sandbox verification (7eca94e)
+- fix(ci): pin ubuntu-24.04 runner, add playwright browser cache, and bound job timeouts (61ff98a)
+- docs(cloud-observations): log 2026-11-11 sandbox verification (b6958be)
+- docs(cloud-observations): log 2026-11-10 sandbox verification (bd3f419)
+- docs(cloud-observations): log 2026-11-09 sandbox verification (d2cd0b1)
+- docs(cloud-observations): log 2026-11-08 sandbox verification (2361460)
+- fix(telemetry): discriminate multi-destination queues and assert bridge cache update sequence (01dcf6b)
+- fix(telemetry): resolve race conditions and ordering boundaries in ordered transition queue (4fd6a29)
+- fix(telemetry): address code review findings for ordered transition queue (867f557)
+- feat(telemetry): FIFO ordered transition queue for state changes (0d251dd)
+- fix(mqtt): resend state that changed while a registry add waited, and list each device once (861388b)
+- refactor(mqtt): share registry_add building between registry_get and the reconciler (f758f7b)
+- fix(mqtt): keep other devices' state changes after a registry add, and stop refetching all HA states (65069d9)
+- fix(mqtt): stop registry_get from stalling state publishing or over-registering (3322690)
+- feat(mqtt): re-send registry_add for one device on a cloud registry_get command (6ac9694)
+
+## 0.18.0
+- ci(gitlab): install git and node for the test job (9cde43a)
+- ci(gitlab): run the GitHub CI gates on every branch pushed to the GitLab mirror (c83005e)
+- fix(mqtt): back off failed cloud MQTT connects and keep exception text out of error messages (0cd1334)
+- fix(mqtt-server): make static IP and DHCP changes work through the Home Assistant sidebar (984de42)
+- fix(security): trust only the Supervisor ingress proxy for credential backup (77a7a89)
+- fix(credentials): restore real cloud backups ready to reconnect (673397d)
+- fix(registry): auto-add only devices created after auto-add was turned on (84bbbde)
+- fix(registry): stop cloud-deleted devices from being re-registered (dada868)
+- feat(config): hide Early Preview Features behind a Show Experimental Features add-on option (af13eff)
+- fix(workers): wake the cloud registry reconciler loop on stop (1b5b5d5)
+- fix(mqtt): keep publisher wake-ups that arrive mid-publish so stop() ends the thread promptly (c2c7a65)
+- fix(workers): check root log handlers before logging from background workers (761836a)
+- fix(mqtt): route MqttStatePublisher and ZwaveConfigService logging through shutdown-safe _safe_log (c920274)
+- docs(contracts): add MQTT registry_delete command specification (1e7a189)
+- docs(ledger): update cloud observations ledger for November 5 (028339b)
+
+## 0.17.14
+- feat(registry): implement self-healing cloud device registry reconciliation (#168) (74c1806)
+
+## 0.17.13
+- docs(contracts): remediate clinical fall safety and register semantics in Inovelli parameter guide (#167) (8e26a4b)
+- refactor(sensor_identity): replace natural sort key length capping with arbitrary-length digit tuple comparison (#165) (3bab3c8)
+- fix(bridge): suppress closed stream logging errors on teardown in background worker (8d4ad51)
+- docs(ledger): update cloud observations ledger through October 29 (7d127a2)
+- docs(ledger): update cloud observations ledger through October 25 and document local CI policy (63d3d86)
+
+## 0.17.12
+- fix(registry): harden natural area sorting and child area inference (#163) (d80f53e)
+
+## 0.17.11
+- ci(workflows): disable automatic CI and Release pipeline triggers on develop (#162) (ec2f4bc)
+- refactor(registry): address code review refinements for area-based device registration (#161) (5786f3a)
+- fix(docs-tooling): keep verify running when the check stage cannot start (9ad6598)
+
+## 0.17.10
+- fix(bridge): guard background worker logging against closed stream errors on shutdown (#159) (5a66b8f)
+
+## 0.17.9
+- refactor(registry): extract device_sort_key_by_area and lock unicode sort ordering (#158) (3060f07)
+
+## 0.17.8
+- fix(sensor_identity): pre-index device area map and harden natural sort tie-breaking (#156) (de3663d)
+
+## 0.17.7
+- fix(sensor_identity): prevent loop variable leak in area resolution and sanitize natural sorting (#155) (453aa16)
+
+## 0.17.6
+- fix(ci): trigger pull_request workflow on develop and main branches (#154) (766822c)
+- ci(release): restrict version calculation to merge and push on develop (8df42aa)
+- ci(workflows): limit test runs to main PRs and run version bump only on develop (601b809)
+
+## 0.17.5
+- docs(ledger): record October 14 daily audit verification in cloud observations ledger (357a525)
+- fix(security): harden credential backup and restore against unauthenticated export and SSRF (#153) (f29ec0d)
+
+## 0.17.4
+- fix(preview): enforce early preview feature gate on all MQTT Server routes (#147) (f4a6a0f)
+- test(routes): improve integration test coverage for device_routes error branches (#149) (e14535b)
+- test(mqtt): improve unit test coverage for mqtt command subscriber (#148) (86fc175)
+
+## 0.17.3
+- perf(bridge): avoid full entity dictionary copying on state reads (#144) (b8b5b9c)
+- fix(ci): prevent script injection in branch-guard workflow by using environment variables (#142) (d3bed02)
+
+## 0.17.2
+- fix(security): address credential backup and restore security audit findings (#152) (f747635)
+
+## 0.17.1
+- test(devices): update remove selected device integration test assertion to expect expose 0 (6e48816)
+- fix(devices): ensure device unexposure sets expose to false in remove workflow (a516b81)
+
+## 0.17.0
+- feat(security): harden credential backup and restore against unauthenticated exfiltration and partial writes (#151) (14f6854)
+- test(services): improve unit test coverage for mqtt_state_publisher delta publishing (#150) (012d463)
+
+## 0.16.6
+- fix(ci): preserve existing release tag commit in apply_release_tag (362d404)
+
+## 0.16.5
+- fix(security): sanitize and validate interface names in Supervisor network API routes (#146) (bb39b85)
+
+## 0.16.4
+- fix(network): treat Supervisor 5xx responses as failures instead of pending (88612d4)
+
+## 0.16.3
+- fix(mqtt): reject malformed config parameter alias keys instead of falling back to parameter 0 (750510f)
+
+## 0.16.2
+- fix(mqtt): parse bracketed bitmask keys on parameter alias fields (3d670e9)
+
+## 0.16.1
+- fix(bridge): resolve live entities fallback and force bridge refresh on update (8616e71)
+- ci(release): add workflow_dispatch trigger to release workflow (7f732ae)
+
+## 0.16.0
+- ci(release): increment version on develop and apply tag on main (bd09c18)
+- docs(tooling): accumulate verify failures across check and links stages (410780a)
+- chore(workflow): enforce develop as canonical development and PR target branch (504cbcb)
+- fix(parity): resolve lexical scope leakage and default export bindings in parity guard (832fe44)
+- fix(frontend): address review corrections for baseline SSE attributes and parity assertion relevance (be2c675)
+- fix(frontend): address review corrections for SSE merge and parity guard (7aed245)
+- fix(frontend): address review findings for pure-logic modules and parity guard (7607d82)
+- feat(frontend): extract pure logic into lib modules and add Vitest suite (0436c12)
+- chore(attributes): filter number slider bounds and improve test hygiene (fc6015e)
+- docs: update generated options tables for slider bounds (6cd9c06)
+- docs(testing): use homeassistant.local in the example UI test config (59ba668)
+- test(cloud): stop the device-register test hitting the real cloud (4e38350)
+- feat(mqtt): drop number entity slider bounds from published attributes (2d1c8d5)
+- docs: add field installation guide pipeline (e1ea615)
+- docs: add field installation guide pipeline (aaccf88)
+- build(docs): installation setup guide and automated PDF generation pipeline (242789c)
+- feat(network): configure a static IP via the Supervisor network API (#126) (5adecbe)
+- fix(network): treat Supervisor 4xx as refusal instead of pending (30c0347)
+- feat(network): configure a static IP via the Supervisor network API (#126) (a1b3d25)
+- docs: editorial accuracy pass on docs/ (#93) (89f0e58)
+- build(changelog): strip internal ticket references from generated customer changelogs (b6688da)
+- ci(git): establish dev branch workflow and FCI ticket commit hygiene (b1deb85)
+- docs(agents): document Playwright UI test suite execution and headless environment (cd102fb)
+- docs: editorial accuracy pass on docs/ (#93) (6e74638)
+- ci(git): establish develop branch workflow and main branch protection (7ca69f1)
+- feat(ui): add Early Preview Features and hide MQTT Server behind it (ccc334d)
+- docs(tooling): make verify run both stages and accumulate all failures (0e51f7f)
+- test(tooling): enforce the PyYAML-free import layering, don't just assert it (#134) (08ac42b)
+- docs(tooling): make the missing-dependency message work for PyYAML too (#132) (f5e7304)
+- docs(tooling): gate environment variables alongside the other documented surfaces (#131) (23dc33d)
+- docs(tooling): gate environment variables alongside the other surfaces (4e5f630)
+- docs: automate product documentation generation and verification (137046a)
+- docs(tooling): report a missing runtime dependency instead of a traceback (6705057)
+- docs: automate product documentation generation and verification (18c6a82)
+
+## 0.15.1
+- fix(mqtt): trust cloud-forwarded commands, drop life-safety opt-in gate (#127) (5f267e3)
+
+## 0.15.0
+- feat(mqtt): Local Mosquitto Broker Setup and Management Interface (#125) (6665bbb)
+
 ## 0.14.2
 - fix: allow config parameter writes on devices with auxiliary button entities (#119) (8e4dc1b)
 

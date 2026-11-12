@@ -48,7 +48,7 @@ The addon supports the following configuration options (in the Configuration tab
 
 - `db_path`: Database file path (default: `/data/devices.db`)
 
-The full option list, with defaults, is in the add-on's **Documentation** tab ([DOCS.md](DOCS.md#configuration-options)).
+Every option, with its type and default, is listed on this add-on's [Documentation tab](./documentation) in Home Assistant. Reading this on GitHub? See [Configuration Options in DOCS.md](https://github.com/CareDailyAI/HomeAssistant/blob/main/care_daily_device_bridge/DOCS.md#configuration-options).
 
 ## Architecture Support
 
@@ -99,9 +99,6 @@ Direct access bypasses Home Assistant's authentication — see the **Documentati
 
 For issues, feature requests, or questions:
 
-- GitHub Issues: [Report an issue](https://github.com/CareDailyAI/HomeAssistant/issues)
-- Documentation: See `/docs` folder for detailed technical documentation
-
-## Development
-
-See [README_DEVELOPER.md](../guides/README_DEVELOPER.md) for development setup and testing instructions.
+- **Email:** [support@caredaily.ai](mailto:support@caredaily.ai). No account needed. Include the add-on version shown on the **Info** tab.
+- **GitHub:** if you have a GitHub account, you can also [open an issue](https://github.com/CareDailyAI/HomeAssistant/issues/new).
+- **Documentation:** this add-on's [Documentation tab](./documentation) in Home Assistant, or [DOCS.md on GitHub](https://github.com/CareDailyAI/HomeAssistant/blob/main/care_daily_device_bridge/DOCS.md).
