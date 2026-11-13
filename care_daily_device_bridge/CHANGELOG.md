@@ -1,3 +1,8 @@
+## 1.0.1
+- docs(cloud-observations): log 2026-11-13 sandbox verification (4ff702d)
+- fix(ui): replace personal mqtt topic placeholder with generic example (a9ef522)
+- fix(ui): replace personal phone number placeholder with 111-456-7890 (70f2da5)
+
 ## 1.0.0
 - feat(release)!: pin ubuntu-24.04 on release/deploy workflows and prepare v1.0.0 (184f42b)
 - docs(cloud-observations): log 2026-11-12 sandbox verification (7eca94e)
